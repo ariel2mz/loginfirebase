@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="module" src="script.js"></script>
+  <title>Email Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    input, button {
+      display: block;
+      margin: 10px 0;
+      padding: 8px;
+      width: 100%;
+      max-width: 300px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Email Login and Registration</h1>
+
+  <!-- Login Section -->
+  <div id="login-section">
+    <h2>Login</h2>
+    <input type="email" id="login-email" placeholder="Enter your email" required>
+    <input type="password" id="login-password" placeholder="Enter your password" required>
+    <button onclick="login()">Login</button>
+    <p id="login-message" style="color: red;"></p>
+  </div>
+
+  <!-- Register Section -->
+  <div id="register-section">
+    <h2>Register</h2>
+    <input type="email" id="register-email" placeholder="Enter your email" required>
+    <input type="password" id="register-password" placeholder="Enter your password" required>
+    <button onclick="register()">Register</button>
+    <p id="register-message" style="color: green;"></p>
+  </div>
+
+  <!-- Logout Section -->
+  <div id="logout-section" class="hidden">
+    <h2>Welcome!</h2>
+    <p id="welcome-message"></p>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+    const users = {}; // Simple object to store user data for demonstration
+
+    function login() {
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+      const message = document.getElementById("login-message");
+
+      if (users[email] && users[email] === password) {
+        message.textContent = "";
+        showWelcome(email);
+      } else {
+        message.textContent = "Invalid email or password.";
+      }
+    }
+
+    function register() {
+      const email = document.getElementById("register-email").value;
+      const password = document.getElementById("register-password").value;
+      const message = document.getElementById("register-message");
+
+      if (users[email]) {
+        message.textContent = "Email already registered.";
+      } else if (email && password) {
+        users[email] = password;
+        message.textContent = "Registration successful! You can now log in.";
+        document.getElementById("register-email").value = "";
+        document.getElementById("register-password").value = "";
+      } else {
+        message.textContent = "Please fill in both fields.";
+      }
+    }
+
+    function logout() {
+      document.getElementById("logout-section").classList.add("hidden");
+      document.getElementById("login-section").classList.remove("hidden");
+      document.getElementById("register-section").classList.remove("hidden");
+    }
+
+    function showWelcome(email) {
+      document.getElementById("welcome-message").textContent = `Welcome, ${email}!`;
+      document.getElementById("logout-section").classList.remove("hidden");
+      document.getElementById("login-section").classList.add("hidden");
+      document.getElementById("register-section").classList.add("hidden");
+    }
+  </script>
+</body>
+</html>
